@@ -88,12 +88,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             Cursor cursor = resolver.query(uri, null, null, null, null);
 
             int markerId = 0;
-
+            int i = 0;
             if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
+                do {
 
                     //TODO here maybe you need a counter with a step of 5.
-
+                    Log.d("SAMPLETAG", "" + i);
+                    i++;
                     int id = cursor.getInt(0);
 
                     double lat = cursor.getDouble(1);
@@ -109,7 +110,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d("OK", "CURSOR PROCESSED");
                     Toast.makeText(getApplicationContext(), "" + timestamp, Toast.LENGTH_LONG).show();
                     markerId++;
-                }
+                }while (cursor.moveToNext());
                 //Log.d("WTF", "");
 
             }
