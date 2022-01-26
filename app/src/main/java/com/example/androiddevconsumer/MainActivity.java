@@ -42,15 +42,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         final ContentResolver resolver = this.getContentResolver();
 
         findViewById(R.id.button).setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "button pressed", Toast.LENGTH_LONG).show();
 
+            //Clear old markers
             mMap.clear();
+            //URI of the provider
             Uri uri = Uri.parse("content://com.example.androiddev/coord");
             Cursor cursor = resolver.query(uri, null, null, null, null);
 
             int markerId = 0;
             int i = 0;
             if (cursor.moveToFirst()) {
+                //If the cursor has data in it, iterate until it has no more
                 do {
                     Log.d("SAMPLETAG", "" + i);
                     i++;
@@ -67,13 +69,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng latLng = new LatLng(lat, lon);
                     handleButtonClick(latLng, action, timestamp, markerId);
                     Log.d("OK", "CURSOR PROCESSED");
-                    Toast.makeText(getApplicationContext(), "" + timestamp, Toast.LENGTH_LONG).show();
                     markerId++;
                 } while (cursor.moveToNext());
             }
             cursor.close();
         });
-
     }
 
     @Override
@@ -88,7 +88,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addMarker(LatLng latLng, int action, long timestamp, int id) {
-
         String geofAction;
         switch (action) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
